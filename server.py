@@ -22,7 +22,7 @@ clubs = loadClubs()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', clubs=clubs, competitions=competitions)
 
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
@@ -57,3 +57,6 @@ def purchasePlaces():
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
+
+
+# remote add oc 

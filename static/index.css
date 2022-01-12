@@ -1,0 +1,16 @@
+h1 {
+	text-align: center;
+	margin-top: 5%;
+}
+
+p, form {
+	text-align: center;
+}
+
+h2, table {
+	margin-left: 500px;
+}
+
+tbody {
+	text-align: left;
+}
