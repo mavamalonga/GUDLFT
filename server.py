@@ -22,7 +22,7 @@ clubs = loadClubs()
 
 @app.route('/')
 def index():
-    return render_template('index.html', clubs=clubs, competitions=competitions)
+    return render_template('index.html')
 
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
@@ -47,7 +47,7 @@ def purchasePlaces():
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     placesRequired = int(request.form['places'])
     if competition['numberOfPlaces'] != 0:
-        if placesRequired < 12:
+        if placesRequired <= 12:
             if int(club['points']) >= placesRequired:
                 competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
                 club['points'] = int(club['points']) - placesRequired
@@ -55,13 +55,16 @@ def purchasePlaces():
             else:
                 flash("sorry! you don't have enough points to make this order")
         else:
-            flash('To ensure parity of seats for each club, you may not order more than 12 seats')
+            flash('To ensure parity of places for each club, you may not order more than 12 places')
     else:
         flash('sorry! there are no more places available for this tournament')
     return render_template('welcome.html', club=club, competitions=competitions)
 
 
 # TODO: Add route for points display
+@app.route('/clubPoints', methods=['GET'])
+def clubPoints():
+    return render_template('points.html', clubs=clubs, competitions=competitions)
 
 
 @app.route('/logout')

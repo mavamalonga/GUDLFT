@@ -6,11 +6,3 @@ h1 {
 p, form {
 	text-align: center;
 }
-
-h2, table {
-	margin-left: 500px;
-}
-
-tbody {
-	text-align: left;
-}

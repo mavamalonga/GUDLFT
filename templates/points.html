@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{ url_for('static', filename='points.css') }}">
+	<title>Club points</title>
+</head>
+<body>
+	<a href="{{ url_for('index') }}">Login</a>
+	<h1>Total points per club</h1>
+	<table>
+	    <tr>
+	        <th>Club</th>
+	        <th>Points</th>
+	    </tr>
+	    {% for club in clubs %}
+	    <tr>
+	        <td>{{club['name']}}</td>
+	        <td>{{club['points']}}</td>
+	    </tr>
+	    {% endfor %}
+	</table>
+</body>
+</html>
