@@ -1,6 +1,10 @@
+* {
+	font-family: arial, sans-serif;
+}
+
 h1 {
 	text-align: center;
-	margin-top: 5%;
+	margin-top: 10%;
 }
 
 p, form {

@@ -6,6 +6,7 @@
     <title>GUDLFT Registration</title>
 </head>
 <body>
+    <a href="{{ url_for('clubPoints') }}">Club points</a>
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
     <p>Please enter your secretary email to continue:</p>
     <form action="showSummary" method="post">
@@ -13,6 +14,5 @@
         <input type="email" name="email" id=""/>
         <button type="submit">Enter</button>
     </form>
-    <a href="{{ url_for('clubPoints') }}">Club points</a>
 </body>
 </html>

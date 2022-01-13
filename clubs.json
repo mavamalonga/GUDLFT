@@ -13,4 +13,13 @@
         "email": "kate@shelifts.co.uk",
         "points":"12"
     }
+    ,
+    {   "name":"Olympique Lyonnais",
+        "email": "michou@ol.fr",
+        "points":"20"
+    },
+    {   "name":"LOSC Lille",
+        "email": "monsieurlopes@ol.fr",
+        "points":"20"
+    }
 ]}

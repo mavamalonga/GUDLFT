@@ -1,7 +1,27 @@
-h1, table {
-	margin-left: 500px;
+* {
+	font-family: arial, sans-serif;
+}
+h1 {
+	text-align: center;
 }
 
 tbody {
 	text-align: left;
+}
+
+table {
+	margin-left: 380px;
+	text-align: left;
+	border-collapse: collapse;
+	width: 40%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #dddddd;
 }
