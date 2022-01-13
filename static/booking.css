@@ -1,0 +1,18 @@
+* {
+	font-family: arial, sans-serif;
+}
+
+h2 {
+	margin-top: 10%;
+	text-align: center;
+}
+
+form label::after{
+    content: "\a";
+    white-space: pre;
+}
+
+div {
+	margin-top:2%;
+	margin-left: 550px;
+}
