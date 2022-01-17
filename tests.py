@@ -130,6 +130,24 @@ class TestPlacesRequired(unittest.TestCase):
 		self.assertIn(b'Great-booking complete!', response.data)
 
 
+class TestCompetitionNbOfPlaces(unittest.TestCase):
+
+	client = app.test_client()
+
+	def test_nbofplaces_less_than_number_placesRequired(self):
+		club = loadClubs()[-1]
+		competition = loadCompetitions()[-1]
+		data = {
+			"club": club['name'],
+			"competition": competition['name'],
+			"places": 8
+		}
+		response = self.client.post('/purchasePlaces', data=data)
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'Sorry there is not enough places for your order', response.data)
+
+
+
 
 
 	

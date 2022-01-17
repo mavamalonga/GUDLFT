@@ -9,6 +9,11 @@
             "name": "Fall Classic",
             "date": "2020-10-22 13:30:00",
             "numberOfPlaces": "13"
+        },
+        {
+            "name": "Small competition",
+            "date": "2022-01-17 17:35:00",
+            "numberOfPlaces": "5"
         }
     ]
 }
