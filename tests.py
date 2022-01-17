@@ -67,6 +67,20 @@ class TestBook(unittest.TestCase):
 		self.assertIn(b'Places available: 25', self.response.data)
 
 
+class TestClubsPoints(unittest.TestCase):
+
+	client = app.test_client()
+	response = client.get('/clubPoints')
+
+	def test_status(self):
+		statuscode = self.response.status_code
+		self.assertEqual(statuscode, 200)
+
+	def test_html_content(self):
+		self.assertIn(b'Total points per club', self.response.data)
+		self.assertIn(b'Simply Lift', self.response.data)
+		self.assertIn(b'Iron Temple', self.response.data)
+
 
 
 """"
