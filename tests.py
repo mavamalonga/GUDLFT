@@ -82,6 +82,26 @@ class TestClubsPoints(unittest.TestCase):
 		self.assertIn(b'Iron Temple', self.response.data)
 
 
+class TestPurchasePlaces(unittest.TestCase):
+
+	client = app.test_client()
+	club = loadClubs()[0]
+	competition = loadCompetitions()[0]
+
+	def test_nb_of_places_zero(self):
+		data = {
+			'club': self.club['name'],
+			'competition': self.competition['name'],
+			'places': 0
+		}
+		response = self.client.post('/purchasePlaces', data=data)
+		self.assertIn(b'Sorry! select a number of places between 0 and 12', response.data)
+	
+
+
+
+
+
 
 """"
 	def test_upper(self):
