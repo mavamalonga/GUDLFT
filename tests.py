@@ -150,6 +150,7 @@ class TestCompetitionNbOfPlaces(unittest.TestCase):
 
 
 
+
 	
 
 
