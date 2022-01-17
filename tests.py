@@ -82,7 +82,7 @@ class TestClubsPoints(unittest.TestCase):
 		self.assertIn(b'Iron Temple', self.response.data)
 
 
-class TestPurchasePlaces(unittest.TestCase):
+class TestPlacesRequired(unittest.TestCase):
 
 	client = app.test_client()
 	club = loadClubs()[0]
@@ -95,7 +95,43 @@ class TestPurchasePlaces(unittest.TestCase):
 			'places': 0
 		}
 		response = self.client.post('/purchasePlaces', data=data)
+		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Sorry! select a number of places between 0 and 12', response.data)
+
+	def test_nb_of_places_negative(self):
+		data = {
+			'club': self.club['name'],
+			'competition': self.competition['name'],
+			'places': -1
+		}
+		response = self.client.post('/purchasePlaces', data=data)
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'Sorry! select a number of places between 0 and 12', response.data)
+
+	def test_nb_of_places_greater_than_12(self):
+		data = {
+			'club': self.club['name'],
+			'competition': self.competition['name'],
+			'places': 13
+		}
+		response = self.client.post('/purchasePlaces', data=data)
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'To ensure parity of places for each club, you may not order more than 12 places', 
+			response.data)
+
+	def test_purchase_places(self):
+		data = {
+			'club': self.club['name'],
+			'competition': self.competition['name'],
+			'places': 10
+		}
+		response = self.client.post('/purchasePlaces', data=data)
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'Great-booking complete!', response.data)
+
+
+
+
 	
 
 
