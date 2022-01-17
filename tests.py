@@ -67,7 +67,7 @@ class TestBook(unittest.TestCase):
 		self.assertIn(b'Places available: 25', self.response.data)
 
 
-class TestClubsPoints(unittest.TestCase):
+class TestTotalClubsPoints(unittest.TestCase):
 
 	client = app.test_client()
 	response = client.get('/clubPoints')
@@ -88,7 +88,7 @@ class TestPlacesRequired(unittest.TestCase):
 	club = loadClubs()[0]
 	competition = loadCompetitions()[0]
 
-	def test_nb_of_places_zero(self):
+	def test_places_zero(self):
 		data = {
 			'club': self.club['name'],
 			'competition': self.competition['name'],
@@ -98,7 +98,7 @@ class TestPlacesRequired(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Sorry! select a number of places between 0 and 12', response.data)
 
-	def test_nb_of_places_negative(self):
+	def test_places_negative(self):
 		data = {
 			'club': self.club['name'],
 			'competition': self.competition['name'],
@@ -108,7 +108,7 @@ class TestPlacesRequired(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Sorry! select a number of places between 0 and 12', response.data)
 
-	def test_nb_of_places_greater_than_12(self):
+	def test_places_greater_than_12(self):
 		data = {
 			'club': self.club['name'],
 			'competition': self.competition['name'],
@@ -130,11 +130,11 @@ class TestPlacesRequired(unittest.TestCase):
 		self.assertIn(b'Great-booking complete!', response.data)
 
 
-class TestCompetitionNbOfPlaces(unittest.TestCase):
+class TestCompetitionPlaces(unittest.TestCase):
 
 	client = app.test_client()
 
-	def test_nbofplaces_less_than_number_placesRequired(self):
+	def test_places_lte_placesRequired(self):
 		club = loadClubs()[-1]
 		competition = loadCompetitions()[-1]
 		data = {
@@ -147,31 +147,38 @@ class TestCompetitionNbOfPlaces(unittest.TestCase):
 		self.assertIn(b'Sorry there is not enough places for your order', response.data)
 
 
+class TestClubPoints(unittest.TestCase):
 
-
-
-
-	
-
-
-
-
-
-
-""""
-	def test_upper(self):
-		self.assertEqual('foo'.upper(), 'FOO')
+	def test_club_point_zero(self):
 		client = app.test_client()
-		#rv = c.get('/?tequila=42')
-		#assert request.args['tequila'] == '42'
-		response = client.get('/showSummary')
-		statuscode = response.status_code
-		print(f"status_code : {statuscode}")
-		res = b'Welcome' in response.data
-		print(res)
-		print(response.data)
-		self.assertEqual(statuscode, 405)
-"""
+		club = loadClubs()[3]
+		competition = loadCompetitions()[0]
+		data = {
+			'club': club['name'],
+			'competition': competition['name'],
+			'places': 10
+		}
+		response = client.post('/purchasePlaces', data=data)
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'sorry! you don&#39;t have enough points to make this order', response.data)
+
+	def test_club_points_lte_placeRequired(self):
+		client = app.test_client()
+		club = loadClubs()[1]
+		competition = loadCompetitions()[0]
+		data = {
+			"club": club['name'],
+			"competition": competition['name'],
+			"places": 10
+		}
+		response = client.post('/purchasePlaces', data=data)
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b"sorry! you don&#39;t have enough points to make this order", response.data)
+
+
 
 if __name__ == '__main__':
     unittest.main()
+
+
+#assert request.args['tequila'] == '42'

@@ -13,6 +13,11 @@
         "email": "kate@shelifts.co.uk",
         "points":"12"
     },
+    {
+        "name":"Medium club",
+        "email": "medium@exemple.com",
+        "points":"0"
+    },
     {   "name": "Big club",
         "email": "bigclub@exemple.com",
         "points": "100"
