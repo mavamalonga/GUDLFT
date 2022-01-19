@@ -96,7 +96,7 @@ class TestPlacesRequired(unittest.TestCase):
 		}
 		response = self.client.post('/purchasePlaces', data=data)
 		self.assertEqual(response.status_code, 200)
-		self.assertIn(b'Sorry! select a number of places between 0 and 12', response.data)
+		self.assertIn(b'Sorry! select a number of places between 1 and 12', response.data)
 
 	def test_places_negative(self):
 		data = {
@@ -106,7 +106,7 @@ class TestPlacesRequired(unittest.TestCase):
 		}
 		response = self.client.post('/purchasePlaces', data=data)
 		self.assertEqual(response.status_code, 200)
-		self.assertIn(b'Sorry! select a number of places between 0 and 12', response.data)
+		self.assertIn(b'Sorry! select a number of places between 1 and 12', response.data)
 
 	def test_places_greater_than_12(self):
 		data = {
@@ -116,7 +116,7 @@ class TestPlacesRequired(unittest.TestCase):
 		}
 		response = self.client.post('/purchasePlaces', data=data)
 		self.assertEqual(response.status_code, 200)
-		self.assertIn(b'To ensure parity of places for each club, you may not order more than 12 places', 
+		self.assertIn(b'Sorry! select a number of places between 1 and 12', 
 			response.data)
 
 	def test_purchase_places(self):
@@ -179,6 +179,3 @@ class TestClubPoints(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-
-#assert request.args['tequila'] == '42'

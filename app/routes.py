@@ -1,21 +1,8 @@
-import json
+from app import app
+from app.models import loadClubs, loadCompetitions
+
 from flask import Flask,render_template,request,redirect,flash,url_for
 
-
-def loadClubs():
-    with open('clubs.json') as c:
-         listOfClubs = json.load(c)['clubs']
-         return listOfClubs
-
-
-def loadCompetitions():
-    with open('competitions.json') as comps:
-         listOfCompetitions = json.load(comps)['competitions']
-         return listOfCompetitions
-
-
-app = Flask(__name__)
-app.secret_key = 'something_special'
 
 competitions = loadCompetitions()
 clubs = loadClubs()
@@ -58,7 +45,7 @@ def purchasePlaces():
             else:
                 flash("sorry! you don't have enough points to make this order")
         else:
-             flash('Sorry! select a number of places between 1 and 12')
+             flash('Sorry! select a number of places between 0 and 12')
     else:
         flash('sorry! there are no more places available for this tournament')
     return render_template('welcome.html', club=club, competitions=competitions)
@@ -72,6 +59,3 @@ def clubPoints():
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
-
-
-# remote add oc 
