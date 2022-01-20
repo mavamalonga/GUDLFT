@@ -8,7 +8,7 @@ class ProjectPerfTest(HttpUser):
 		self.client.get('')
 
 	@task 
-	def clubPoints(self):
+	def totalClubPoints(self):
 		self.client.get('clubPoints')
 
 	@task 
