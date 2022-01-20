@@ -106,4 +106,21 @@ class PlacesRequiredPerfTest(HttpUser):
 		self.client.post('purchasePlaces', data=data)
 
 
+class ShowSummaryPerfTest(HttpUser):
+
+	@task
+	def locust_showSummary(self):
+		club = loadClubs()[0]
+		self.client.post('showSummary', data={'email': club['email']})
+
+
+class TotalClubsPointsPerfTest(HttpUser):
+
+	@task
+	def locust_clubPoints(self):
+		self.client.get('clubPoints')
+
+
+
+
 
