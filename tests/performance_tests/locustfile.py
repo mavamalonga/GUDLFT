@@ -60,6 +60,50 @@ class CompetitionPlacesPerfTest(HttpUser):
 class IndexPerfTest(HttpUser):
 
 	@task
-	def locust_index(self)
-		self.client.get('/')
+	def locust_index(self):
+		self.client.get('')
+
+
+class PlacesRequiredPerfTest(HttpUser):
+
+	club = loadClubs()[0]
+	competition = loadCompetitions()[0]
+
+	@task
+	def locust_places_zero(self):
+		data = {
+			'club': self.club['name'],
+			'competition': self.competition['name'],
+			'places': 0
+		}
+		self.client.post('purchasePlaces', data=data)
+
+	@task
+	def locust_places_negative(self):
+		data = {
+			'club': self.club['name'],
+			'competition': self.competition['name'],
+			'places': -1
+		}
+		self.client.post('purchasePlaces', data=data)
+
+	@task
+	def locust_places_greater_than_12(self):
+		data = {
+			'club': self.club['name'],
+			'competition': self.competition['name'],
+			'places': 13
+		}
+		self.client.post('purchasePlaces', data=data)
+
+	@task
+	def locust_purchase_places(self):
+		data = {
+			'club': self.club['name'],
+			'competition': self.competition['name'],
+			'places': 10
+		}
+		self.client.post('purchasePlaces', data=data)
+
+
 
