@@ -28,8 +28,19 @@ class ProjectPerfTest(HttpUser):
 		endpoint = f"book/{competition['name']}/{club['name']}"
 		self.client.get(endpoint)
 
-	@task 
-	def clubPoints(self):
+	@task
+	def test_club_point_zero(self):
+		club = loadClubs()[3]
+		competition = loadCompetitions()[0]
+		data = {
+			'club': club['name'],
+			'competition': competition['name'],
+			'places': 10
+		}
+		self.client.post('purchasePlaces', data=data)
+	
+	@task
+	def test_club_points_lte_placeRequired(self):
 		club = loadClubs()[1]
 		competition = loadCompetitions()[0]
 		data = {
@@ -39,7 +50,18 @@ class ProjectPerfTest(HttpUser):
 		}
 		self.client.post('purchasePlaces', data=data)
 
-	
+	@task
+	def test_places_lte_placesRequired(self):
+		club = loadClubs()[-1]
+		competition = loadCompetitions()[-1]
+		data = {
+			"club": club['name'],
+			"competition": competition['name'],
+			"places": 8
+		}
+		self.client.post('/purchasePlaces', data=data)
+
+
 
 
 
