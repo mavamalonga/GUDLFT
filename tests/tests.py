@@ -4,33 +4,33 @@ import HtmlTestRunner
 import os
 import sys
 
-from server import app, loadClubs, loadCompetitions
-
 path = 'C:\\Users\\HP\\Desktop\\GUDLFT\\'
 os.chdir(path)
 sys.path.insert(1, path)
 
+from server import app, loadClubs, loadCompetitions
 
-class TestBook(unittest.TestCase):
+class TestUnittest(unittest.TestCase):
 
-	client = app.test_client()
-	club = loadClubs()[0]
-	competition = loadCompetitions()[0]
-	endpoint = f"/book/{competition['name']}/{club['name']}"
-	response = client.get(endpoint)
-
-	def test_status(self):
-		statuscode = self.response.status_code
+	def test_book_status(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		competition = loadCompetitions()[0]
+		endpoint = f"/book/{competition['name']}/{club['name']}"
+		response = client.get(endpoint)
+		statuscode = response.status_code
 		self.assertEqual(statuscode, 200)
 	
-	def test_html_content(self):
-		self.assertIn(b'Booking for Spring Festival', self.response.data)
-		self.assertIn(b'Places available: 25', self.response.data)
+	def test_book_html_content(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		competition = loadCompetitions()[0]
+		endpoint = f"/book/{competition['name']}/{club['name']}"
+		response = client.get(endpoint)
+		self.assertIn(b'Booking for Spring Festival', response.data)
+		self.assertIn(b'Places available: 25', response.data)
 
-
-class TestClubPoints(unittest.TestCase):
-
-	def test_club_point_zero(self):
+	def test_clubpoint_zero(self):
 		client = app.test_client()
 		club = loadClubs()[3]
 		competition = loadCompetitions()[0]
@@ -56,12 +56,8 @@ class TestClubPoints(unittest.TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b"sorry! you don&#39;t have enough points to make this order", response.data)
 
-
-class TestCompetitionPlaces(unittest.TestCase):
-
-	client = app.test_client()
-
 	def test_places_lte_placesRequired(self):
+		client = app.test_client()
 		club = loadClubs()[-1]
 		competition = loadCompetitions()[-1]
 		data = {
@@ -69,12 +65,9 @@ class TestCompetitionPlaces(unittest.TestCase):
 			"competition": competition['name'],
 			"places": 8
 		}
-		response = self.client.post('/purchasePlaces', data=data)
+		response = client.post('/purchasePlaces', data=data)
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Sorry there is not enough places for your order', response.data)
-
-
-class TestDataJson(unittest.TestCase):
 
 	def test_loadClubs_function(self):
 		club = {
@@ -92,97 +85,97 @@ class TestDataJson(unittest.TestCase):
 		}
 		self.assertEqual(competition, loadCompetitions()[0])
 
-
-class TestIndex(unittest.TestCase):
-
-	client = app.test_client()
-	response = client.get('/')
-
-	def test_status(self):
-		statuscode = self.response.status_code
+	def test_index_status(self):
+		client = app.test_client()
+		response = client.get('/')
+		statuscode = response.status_code
 		self.assertEqual(statuscode, 200)
 
-	def test_html_content(self):
+	def test_index_html_content(self):
+		client = app.test_client()
+		response = client.get('/')
 		b = b'Welcome to the GUDLFT Registration Portal!'
-		self.assertIn(b, self.response.data)
-
-
-class TestPlacesRequired(unittest.TestCase):
-
-	client = app.test_client()
-	club = loadClubs()[0]
-	competition = loadCompetitions()[0]
+		self.assertIn(b, response.data)
 
 	def test_places_zero(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		competition = loadCompetitions()[0]
 		data = {
-			'club': self.club['name'],
-			'competition': self.competition['name'],
+			'club': club['name'],
+			'competition': competition['name'],
 			'places': 0
 		}
-		response = self.client.post('/purchasePlaces', data=data)
+		response = client.post('/purchasePlaces', data=data)
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Sorry! select a number of places between 1 and 12', response.data)
 
 	def test_places_negative(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		competition = loadCompetitions()[0]
 		data = {
-			'club': self.club['name'],
-			'competition': self.competition['name'],
+			'club': club['name'],
+			'competition': competition['name'],
 			'places': -1
 		}
-		response = self.client.post('/purchasePlaces', data=data)
+		response = client.post('/purchasePlaces', data=data)
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Sorry! select a number of places between 1 and 12', response.data)
 
 	def test_places_greater_than_12(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		competition = loadCompetitions()[0]
 		data = {
-			'club': self.club['name'],
-			'competition': self.competition['name'],
+			'club': club['name'],
+			'competition': competition['name'],
 			'places': 13
 		}
-		response = self.client.post('/purchasePlaces', data=data)
+		response = client.post('/purchasePlaces', data=data)
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Sorry! select a number of places between 1 and 12', 
 			response.data)
 
 	def test_purchase_places(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		competition = loadCompetitions()[0]
 		data = {
-			'club': self.club['name'],
-			'competition': self.competition['name'],
+			'club': club['name'],
+			'competition': competition['name'],
 			'places': 10
 		}
-		response = self.client.post('/purchasePlaces', data=data)
+		response = client.post('/purchasePlaces', data=data)
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Great-booking complete!', response.data)
 
-
-class TestShowSummary(unittest.TestCase):
-
-	client = app.test_client()
-	club = loadClubs()[0]
-	response = client.post('/showSummary', data={'email': club['email']})
-
-	def test_status(self):
-		statuscode = self.response.status_code
+	def test_showSummary_status(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		response = client.post('/showSummary', data={'email': club['email']})
+		statuscode = response.status_code
 		self.assertEqual(statuscode, 200)
 
-	def test_html_content(self):
-		content = f"Welcome, {self.club['email']}"
-		self.assertIn(content, str(self.response.data))
+	def test_showSummary_html_content(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		response = client.post('/showSummary', data={'email': club['email']})
+		content = f"Welcome, {club['email']}"
+		self.assertIn(content, str(response.data))
 
-
-class TestTotalClubsPoints(unittest.TestCase):
-
-	client = app.test_client()
-	response = client.get('/clubPoints')
-
-	def test_status(self):
-		statuscode = self.response.status_code
+	def test_totalClubPoints_status(self):
+		client = app.test_client()
+		response = client.get('/clubPoints')
+		statuscode = response.status_code
 		self.assertEqual(statuscode, 200)
 
-	def test_html_content(self):
-		self.assertIn(b'Total points per club', self.response.data)
-		self.assertIn(b'Simply Lift', self.response.data)
-		self.assertIn(b'Iron Temple', self.response.data)
+	def test_totalClubPoints_html_content(self):
+		client = app.test_client()
+		response = client.get('/clubPoints')
+		self.assertIn(b'Total points per club', response.data)
+		self.assertIn(b'Simply Lift', response.data)
+		self.assertIn(b'Iron Temple', response.data)
 
 
 if __name__ == '__main__':
