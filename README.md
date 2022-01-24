@@ -44,8 +44,12 @@
 
 5. Testing
 
-    You are free to use whatever testing framework you like-the main thing is that you can show what tests you are using.
+    Open the files locustfile.py and tests.py change the value path with the path corresponding to your computer.
 
-    We also like to show how well we're testing, so there's a module called 
-    [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
+    To launch the unit tests open a shell terminal and go to the tests directory with the command <code>cd</code> then execute the file <code>python tests.py</code><br>
+    For performance tests go to the performance tests directory and run the following command <code>locust -f file.py</code><br>
+    <code>copy the url provided by the server and open a browser with the address</code>
+    Don't forget to launch the flask server on another end, you just have to enter your test parameters in locust to start the tests
+
+
 
