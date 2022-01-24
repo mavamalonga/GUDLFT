@@ -45,6 +45,11 @@ def book(competition,club):
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
+    try:
+         placesRequired = int(request.form['places'])
+    except Exception as e:
+        flash('Please enter a number')
+        return render_template('welcome.html', club=club, competitions=competitions)
     placesRequired = int(request.form['places'])
     if int(competition['numberOfPlaces']) > 0:
         if placesRequired <= 12 and placesRequired > 0:

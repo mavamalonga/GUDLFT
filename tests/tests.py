@@ -137,6 +137,20 @@ class TestUnittest(unittest.TestCase):
 		self.assertIn(b'Sorry! select a number of places between 1 and 12', 
 			response.data)
 
+	def test_places_required_value_error(self):
+		client = app.test_client()
+		club = loadClubs()[0]
+		competition = loadCompetitions()[0]
+		data = {
+			'club': club['name'],
+			'competition': competition['name'],
+			'places': "e"
+		}
+		response = client.post('/purchasePlaces', data=data)
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'Please enter a number', 
+			response.data)
+
 	def test_purchase_places(self):
 		client = app.test_client()
 		club = loadClubs()[0]
